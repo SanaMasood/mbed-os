@@ -17,6 +17,7 @@
 
 #include "AT_CellularSIM.h"
 #include "CellularLog.h"
+#include "mbed.h"
 
 using namespace mbed;
 
@@ -42,6 +43,7 @@ nsapi_error_t AT_CellularSIM::get_sim_state(SimState &state)
     if (len != -1) {
         if (len >= 5 && memcmp(simstr, "READY", 5) == 0) {
             state = SimStateReady;
+            wait(0.5);
         } else if (len >= 6 && memcmp(simstr, "SIM PIN", 6) == 0) {
             state = SimStatePinNeeded;
         } else if (len >= 6 && memcmp(simstr, "SIM PUK", 6) == 0) {
